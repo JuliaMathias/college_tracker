@@ -5,6 +5,7 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
   import CollegeTracker.ExtracurricularActivitiesFixtures
 
   alias CollegeTracker.ExtracurricularActivities
+  alias CollegeTracker.ExtracurricularActivities.Activity
   alias CollegeTracker.ExtracurricularActivities.ActivityCategory
   alias CollegeTracker.ExtracurricularActivities.ActivityType
 
@@ -186,10 +187,6 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
   end
 
   describe "activities" do
-    alias CollegeTracker.ExtracurricularActivities.Activity
-
-    import CollegeTracker.ExtracurricularActivitiesFixtures
-
     @invalid_attrs %{
       certificate: nil,
       description: nil,
@@ -251,7 +248,7 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
         certificate: "some updated certificate",
         description: "some updated description",
         end_date: ~D[2023-06-16],
-        hours: 43,
+        hours: 40,
         name: "some updated name",
         start_date: ~D[2023-06-16],
         status: :submitted,
@@ -264,7 +261,7 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
       assert activity.certificate == "some updated certificate"
       assert activity.description == "some updated description"
       assert activity.end_date == ~D[2023-06-16]
-      assert activity.hours == 43
+      assert activity.hours == 40
       assert activity.name == "some updated name"
       assert activity.start_date == ~D[2023-06-16]
       assert activity.status == :submitted

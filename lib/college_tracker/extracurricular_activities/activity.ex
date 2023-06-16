@@ -24,6 +24,7 @@ defmodule CollegeTracker.ExtracurricularActivities.Activity do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias CollegeTracker.ExtracurricularActivities
   alias CollegeTracker.ExtracurricularActivities.ActivityType
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -67,6 +68,39 @@ defmodule CollegeTracker.ExtracurricularActivities.Activity do
     activity
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> validate_date_range()
+    |> validate_hours_limit()
     |> assoc_constraint(:activity_type)
+  end
+
+  defp validate_date_range(changeset) do
+    start_date = get_change(changeset, :start_date)
+    end_date = get_change(changeset, :end_date)
+
+    if start_date && end_date && Date.compare(start_date, end_date) == :gt do
+      add_error(changeset, :start_date, "cannot be after the end date")
+    else
+      changeset
+    end
+  end
+
+  defp validate_hours_limit(changeset) do
+    hours = get_field(changeset, :hours)
+    activity_type_id = get_field(changeset, :activity_type_id)
+
+    activity_type =
+      if activity_type_id != nil,
+        do: ExtracurricularActivities.get_activity_type!(activity_type_id),
+        else: nil
+
+    if hours && activity_type && hours > activity_type.individual_limit do
+      add_error(
+        changeset,
+        :hours,
+        "cannot be higher than the individual limit of #{activity_type.individual_limit}"
+      )
+    else
+      changeset
+    end
   end
 end
