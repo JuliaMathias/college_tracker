@@ -6,7 +6,10 @@ defmodule CollegeTracker.ExtracurricularActivities.ActivityCategory do
   """
 
   use Ecto.Schema
+
   import Ecto.Changeset
+
+  alias CollegeTracker.ExtracurricularActivities.ActivityType
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -22,6 +25,8 @@ defmodule CollegeTracker.ExtracurricularActivities.ActivityCategory do
   schema "activity_categories" do
     field :limit, :integer
     field :name, :string
+
+    has_many :activity_types, ActivityType
 
     timestamps()
   end

@@ -6,6 +6,7 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
 
   alias CollegeTracker.ExtracurricularActivities
   alias CollegeTracker.ExtracurricularActivities.ActivityCategory
+  alias CollegeTracker.ExtracurricularActivities.ActivityType
 
   describe "activity_categories" do
     @invalid_attrs %{limit: nil, name: nil}
@@ -77,6 +78,100 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
 
       assert %Ecto.Changeset{} =
                ExtracurricularActivities.change_activity_category(activity_category)
+    end
+  end
+
+  describe "activity_types" do
+    @invalid_attrs %{
+      name: nil,
+      status: nil,
+      total_limit: nil,
+      individual_limit: nil,
+      remaining_limit: nil
+    }
+
+    test "list_activity_types/0 returns all activity_types" do
+      activity_type = activity_type_fixture()
+      assert ExtracurricularActivities.list_activity_types() == [activity_type]
+    end
+
+    test "get_activity_type!/1 returns the activity_type with given id" do
+      activity_type = activity_type_fixture()
+      assert ExtracurricularActivities.get_activity_type!(activity_type.id) == activity_type
+    end
+
+    test "create_activity_type/1 with valid data creates a activity_type" do
+      %{id: activity_category_id} = activity_category_fixture()
+
+      valid_attrs = %{
+        name: "some name",
+        status: :unqualified,
+        total_limit: 42,
+        individual_limit: 42,
+        remaining_limit: 42,
+        activity_category_id: activity_category_id
+      }
+
+      assert {:ok, %ActivityType{} = activity_type} =
+               ExtracurricularActivities.create_activity_type(valid_attrs)
+
+      assert activity_type.name == "some name"
+      assert activity_type.status == :unqualified
+      assert activity_type.total_limit == 42
+      assert activity_type.individual_limit == 42
+      assert activity_type.remaining_limit == 42
+      assert activity_type.activity_category_id == activity_category_id
+    end
+
+    test "create_activity_type/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} =
+               ExtracurricularActivities.create_activity_type(@invalid_attrs)
+    end
+
+    test "update_activity_type/2 with valid data updates the activity_type" do
+      activity_type = activity_type_fixture()
+
+      update_attrs = %{
+        name: "some updated name",
+        status: :available,
+        total_limit: 43,
+        individual_limit: 43,
+        remaining_limit: 43
+      }
+
+      assert {:ok, %ActivityType{} = activity_type} =
+               ExtracurricularActivities.update_activity_type(activity_type, update_attrs)
+
+      assert activity_type.name == "some updated name"
+      assert activity_type.status == :available
+      assert activity_type.total_limit == 43
+      assert activity_type.individual_limit == 43
+      assert activity_type.remaining_limit == 43
+    end
+
+    test "update_activity_type/2 with invalid data returns error changeset" do
+      activity_type = activity_type_fixture()
+
+      assert {:error, %Ecto.Changeset{}} =
+               ExtracurricularActivities.update_activity_type(activity_type, @invalid_attrs)
+
+      assert activity_type == ExtracurricularActivities.get_activity_type!(activity_type.id)
+    end
+
+    test "delete_activity_type/1 deletes the activity_type" do
+      activity_type = activity_type_fixture()
+
+      assert {:ok, %ActivityType{}} =
+               ExtracurricularActivities.delete_activity_type(activity_type)
+
+      assert_raise Ecto.NoResultsError, fn ->
+        ExtracurricularActivities.get_activity_type!(activity_type.id)
+      end
+    end
+
+    test "change_activity_type/1 returns a activity_type changeset" do
+      activity_type = activity_type_fixture()
+      assert %Ecto.Changeset{} = ExtracurricularActivities.change_activity_type(activity_type)
     end
   end
 end
