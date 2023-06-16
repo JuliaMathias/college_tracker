@@ -18,6 +18,12 @@ defmodule CollegeTrackerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/activity_categories", ActivityCategoryLive.Index, :index
+    live "/activity_categories/new", ActivityCategoryLive.Index, :new
+    live "/activity_categories/:id/edit", ActivityCategoryLive.Index, :edit
+
+    live "/activity_categories/:id", ActivityCategoryLive.Show, :show
+    live "/activity_categories/:id/show/edit", ActivityCategoryLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
