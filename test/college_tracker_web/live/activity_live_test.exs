@@ -22,7 +22,7 @@ defmodule CollegeTrackerWeb.ActivityLiveTest do
     certificate: "some updated certificate",
     description: "some updated description",
     end_date: "2023-06-16",
-    hours: 43,
+    hours: 40,
     name: "some updated name",
     start_date: "2023-06-16",
     status: :submitted,
