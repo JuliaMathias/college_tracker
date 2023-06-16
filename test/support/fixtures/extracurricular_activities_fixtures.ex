@@ -41,4 +41,28 @@ defmodule CollegeTracker.ExtracurricularActivitiesFixtures do
 
     activity_type
   end
+
+  @doc """
+  Generate a activity.
+  """
+  def activity_fixture(attrs \\ %{}) do
+    %{id: activity_type_id} = activity_type_fixture()
+
+    {:ok, activity} =
+      attrs
+      |> Enum.into(%{
+        certificate: "some certificate",
+        description: "some description",
+        end_date: ~D[2023-06-15],
+        hours: 42,
+        name: "some name",
+        start_date: ~D[2023-06-15],
+        status: :draft,
+        submission_date: ~D[2023-06-15],
+        activity_type_id: activity_type_id
+      })
+      |> CollegeTracker.ExtracurricularActivities.create_activity()
+
+    activity
+  end
 end

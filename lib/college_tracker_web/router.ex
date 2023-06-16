@@ -31,6 +31,13 @@ defmodule CollegeTrackerWeb.Router do
 
     live "/activity_types/:id", ActivityTypeLive.Show, :show
     live "/activity_types/:id/show/edit", ActivityTypeLive.Show, :edit
+
+    live "/activities", ActivityLive.Index, :index
+    live "/activities/new", ActivityLive.Index, :new
+    live "/activities/:id/edit", ActivityLive.Index, :edit
+
+    live "/activities/:id", ActivityLive.Show, :show
+    live "/activities/:id/show/edit", ActivityLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

@@ -35,6 +35,7 @@ defmodule CollegeTracker.ExtracurricularActivities.ActivityType do
 
   import Ecto.Changeset
 
+  alias CollegeTracker.ExtracurricularActivities.Activity
   alias CollegeTracker.ExtracurricularActivities.ActivityCategory
 
   @primary_key {:id, :binary_id, autogenerate: true}
@@ -64,6 +65,7 @@ defmodule CollegeTracker.ExtracurricularActivities.ActivityType do
     field :remaining_limit, :integer
 
     belongs_to :activity_category, ActivityCategory
+    has_many :activities, Activity
 
     timestamps()
   end
