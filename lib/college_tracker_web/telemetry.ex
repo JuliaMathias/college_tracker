@@ -1,4 +1,7 @@
 defmodule CollegeTrackerWeb.Telemetry do
+  @moduledoc """
+  This module defines the telemetry metrics for the application.
+  """
   use Supervisor
   import Telemetry.Metrics
 
