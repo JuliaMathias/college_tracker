@@ -1,0 +1,55 @@
+<.header>
+  Listing Activity categories
+  <:actions>
+    <.link patch={~p"/activity_categories/new"}>
+      <.button>New Activity category</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="activity_categories"
+  rows={@streams.activity_categories}
+  row_click={
+    fn {_id, activity_category} -> JS.navigate(~p"/activity_categories/#{activity_category}") end
+  }
+>
+  <:col :let={{_id, activity_category}} label="Name"><%= activity_category.name %></:col>
+  <:col :let={{_id, activity_category}} label="Total Limit">
+    <%= activity_category.total_limit %>
+  </:col>
+  <:col :let={{_id, activity_category}} label="Remaining Limit">
+    <%= activity_category.remaining_limit %>
+  </:col>
+  <:col :let={{_id, activity_category}} label="Status"><%= activity_category.status %></:col>
+  <:action :let={{_id, activity_category}}>
+    <div class="sr-only">
+      <.link navigate={~p"/activity_categories/#{activity_category}"}>Show</.link>
+    </div>
+    <.link patch={~p"/activity_categories/#{activity_category}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, activity_category}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: activity_category.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="activity_category-modal"
+  show
+  on_cancel={JS.patch(~p"/activity_categories")}
+>
+  <.live_component
+    module={CollegeTrackerWeb.ActivityCategoryLive.FormComponent}
+    id={@activity_category.id || :new}
+    title={@page_title}
+    action={@live_action}
+    activity_category={@activity_category}
+    patch={~p"/activity_categories"}
+  />
+</.modal>

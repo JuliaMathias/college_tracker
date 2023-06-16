@@ -1,0 +1,37 @@
+<.header>
+  Activity category <%= @activity_category.id %>
+  <:subtitle>This is a activity_category record from your database.</:subtitle>
+  <:actions>
+    <.link
+      patch={~p"/activity_categories/#{@activity_category}/show/edit"}
+      phx-click={JS.push_focus()}
+    >
+      <.button>Edit activity_category</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @activity_category.name %></:item>
+  <:item title="Total Limit"><%= @activity_category.total_limit %></:item>
+  <:item title="Remaining Limit"><%= @activity_category.remaining_limit %></:item>
+  <:item title="Status"><%= @activity_category.status %></:item>
+</.list>
+
+<.back navigate={~p"/activity_categories"}>Back to activity_categories</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="activity_category-modal"
+  show
+  on_cancel={JS.patch(~p"/activity_categories/#{@activity_category}")}
+>
+  <.live_component
+    module={CollegeTrackerWeb.ActivityCategoryLive.FormComponent}
+    id={@activity_category.id}
+    title={@page_title}
+    action={@live_action}
+    activity_category={@activity_category}
+    patch={~p"/activity_categories/#{@activity_category}"}
+  />
+</.modal>

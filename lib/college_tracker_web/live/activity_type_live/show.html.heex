@@ -1,0 +1,35 @@
+<.header>
+  Activity type <%= @activity_type.id %>
+  <:subtitle>This is a activity_type record from your database.</:subtitle>
+  <:actions>
+    <.link patch={~p"/activity_types/#{@activity_type}/show/edit"} phx-click={JS.push_focus()}>
+      <.button>Edit activity_type</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @activity_type.name %></:item>
+  <:item title="Total limit"><%= @activity_type.total_limit %></:item>
+  <:item title="Individual limit"><%= @activity_type.individual_limit %></:item>
+  <:item title="Remaining limit"><%= @activity_type.remaining_limit %></:item>
+  <:item title="Status"><%= @activity_type.status %></:item>
+</.list>
+
+<.back navigate={~p"/activity_types"}>Back to activity_types</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="activity_type-modal"
+  show
+  on_cancel={JS.patch(~p"/activity_types/#{@activity_type}")}
+>
+  <.live_component
+    module={CollegeTrackerWeb.ActivityTypeLive.FormComponent}
+    id={@activity_type.id}
+    title={@page_title}
+    action={@live_action}
+    activity_type={@activity_type}
+    patch={~p"/activity_types/#{@activity_type}"}
+  />
+</.modal>
