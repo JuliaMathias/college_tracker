@@ -2,7 +2,9 @@ defmodule CollegeTrackerWeb.ErrorJSONTest do
   use CollegeTrackerWeb.ConnCase, async: true
 
   test "renders 404" do
-    assert CollegeTrackerWeb.ErrorJSON.render("404.json", %{}) == %{errors: %{detail: "Not Found"}}
+    assert CollegeTrackerWeb.ErrorJSON.render("404.json", %{}) == %{
+             errors: %{detail: "Not Found"}
+           }
   end
 
   test "renders 500" do
