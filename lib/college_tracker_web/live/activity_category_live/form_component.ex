@@ -20,7 +20,16 @@ defmodule CollegeTrackerWeb.ActivityCategoryLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:name]} type="text" label="Name" />
-        <.input field={@form[:limit]} type="number" label="Limit" />
+        <.input field={@form[:total_limit]} type="number" label="Total Limit" />
+        <.input field={@form[:remaining_limit]} type="number" label="Remaining Limit" />
+        <.input
+          field={@form[:status]}
+          type="select"
+          options={
+            Ecto.Enum.values(CollegeTracker.ExtracurricularActivities.ActivityCategory, :status)
+          }
+          label="Status"
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Activity category</.button>
         </:actions>

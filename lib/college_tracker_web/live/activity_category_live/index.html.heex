@@ -15,7 +15,13 @@
   }
 >
   <:col :let={{_id, activity_category}} label="Name"><%= activity_category.name %></:col>
-  <:col :let={{_id, activity_category}} label="Limit"><%= activity_category.limit %></:col>
+  <:col :let={{_id, activity_category}} label="Total Limit">
+    <%= activity_category.total_limit %>
+  </:col>
+  <:col :let={{_id, activity_category}} label="Remaining Limit">
+    <%= activity_category.remaining_limit %>
+  </:col>
+  <:col :let={{_id, activity_category}} label="Status"><%= activity_category.status %></:col>
   <:action :let={{_id, activity_category}}>
     <div class="sr-only">
       <.link navigate={~p"/activity_categories/#{activity_category}"}>Show</.link>

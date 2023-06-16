@@ -11,7 +11,9 @@ defmodule CollegeTracker.ExtracurricularActivitiesFixtures do
     {:ok, activity_category} =
       attrs
       |> Enum.into(%{
-        limit: 42,
+        total_limit: 42,
+        remaining_limit: 42,
+        status: :available,
         name: "some name"
       })
       |> CollegeTracker.ExtracurricularActivities.create_activity_category()

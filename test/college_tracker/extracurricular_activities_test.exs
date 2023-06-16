@@ -9,7 +9,7 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
   alias CollegeTracker.ExtracurricularActivities.ActivityType
 
   describe "activity_categories" do
-    @invalid_attrs %{limit: nil, name: nil}
+    @invalid_attrs %{total_limit: nil, remaining_limit: nil, status: nil, name: nil}
 
     test "list_activity_categories/0 returns all activity_categories" do
       activity_category = activity_category_fixture()
@@ -24,12 +24,14 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
     end
 
     test "create_activity_category/1 with valid data creates a activity_category" do
-      valid_attrs = %{limit: 42, name: "some name"}
+      valid_attrs = %{total_limit: 42, remaining_limit: 42, status: :available, name: "some name"}
 
       assert {:ok, %ActivityCategory{} = activity_category} =
                ExtracurricularActivities.create_activity_category(valid_attrs)
 
-      assert activity_category.limit == 42
+      assert activity_category.total_limit == 42
+      assert activity_category.remaining_limit == 42
+      assert activity_category.status == :available
       assert activity_category.name == "some name"
     end
 
@@ -40,12 +42,20 @@ defmodule CollegeTracker.ExtracurricularActivitiesTest do
 
     test "update_activity_category/2 with valid data updates the activity_category" do
       activity_category = activity_category_fixture()
-      update_attrs = %{limit: 43, name: "some updated name"}
+
+      update_attrs = %{
+        total_limit: 43,
+        remaining_limit: 43,
+        status: :available,
+        name: "some updated name"
+      }
 
       assert {:ok, %ActivityCategory{} = activity_category} =
                ExtracurricularActivities.update_activity_category(activity_category, update_attrs)
 
-      assert activity_category.limit == 43
+      assert activity_category.total_limit == 43
+      assert activity_category.remaining_limit == 43
+      assert activity_category.status == :available
       assert activity_category.name == "some updated name"
     end
 

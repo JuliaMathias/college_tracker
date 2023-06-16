@@ -5,9 +5,16 @@ defmodule CollegeTrackerWeb.ActivityCategoryLiveTest do
   import Phoenix.LiveViewTest
   import CollegeTracker.ExtracurricularActivitiesFixtures
 
-  @create_attrs %{limit: 42, name: "some name"}
-  @update_attrs %{limit: 43, name: "some updated name"}
-  @invalid_attrs %{limit: nil, name: nil}
+  @create_attrs %{name: "some name", total_limit: 42, remaining_limit: 30, status: :available}
+
+  @update_attrs %{
+    name: "some updated name",
+    total_limit: 43,
+    remaining_limit: 31,
+    status: :complete
+  }
+
+  @invalid_attrs %{name: nil, total_limit: nil, remaining_limit: nil, status: :complete}
 
   defp create_activity_category(_) do
     activity_category = activity_category_fixture()

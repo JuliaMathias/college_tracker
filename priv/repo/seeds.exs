@@ -17,13 +17,29 @@ end
 
 if Mix.env() != :test do
   # Insert activity categories
-  palestras_e_eventos = Repo.insert!(%ActivityCategory{name: "Palestras e Eventos", limit: 50})
+  palestras_e_eventos =
+    Repo.insert!(%ActivityCategory{
+      name: "Palestras e Eventos",
+      total_limit: 50,
+      remaining_limit: 50,
+      status: :available
+    })
 
   cursos_e_estudos_do_meio =
-    Repo.insert!(%ActivityCategory{name: "Cursos e Estudos do Meio", limit: 50})
+    Repo.insert!(%ActivityCategory{
+      name: "Cursos e Estudos do Meio",
+      total_limit: 50,
+      remaining_limit: 50,
+      status: :available
+    })
 
   atividades_e_praticas_profissionais =
-    Repo.insert!(%ActivityCategory{name: "Atividades e Práticas Profissionais", limit: 60})
+    Repo.insert!(%ActivityCategory{
+      name: "Atividades e Práticas Profissionais",
+      total_limit: 60,
+      remaining_limit: 60,
+      status: :available
+    })
 
   # Activity types for each category
   palestras_activity_types = [

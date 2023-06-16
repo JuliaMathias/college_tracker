@@ -13,7 +13,9 @@
 
 <.list>
   <:item title="Name"><%= @activity_category.name %></:item>
-  <:item title="Limit"><%= @activity_category.limit %></:item>
+  <:item title="Total Limit"><%= @activity_category.total_limit %></:item>
+  <:item title="Remaining Limit"><%= @activity_category.remaining_limit %></:item>
+  <:item title="Status"><%= @activity_category.status %></:item>
 </.list>
 
 <.back navigate={~p"/activity_categories"}>Back to activity_categories</.back>

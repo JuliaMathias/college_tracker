@@ -2,7 +2,7 @@ defmodule CollegeTracker.ExtracurricularActivities.ActivityCategory do
   @moduledoc """
   The ActivityCategory schema is used for representing a category of
   extracurricular activities in the CollegeTracker application. Each category
-  has a name and a limit of hours that can be attributed to it.
+  has a name, total_limit, remaining_limit and status.
   """
 
   use Ecto.Schema
@@ -17,14 +17,18 @@ defmodule CollegeTracker.ExtracurricularActivities.ActivityCategory do
   @type t :: %__MODULE__{
           id: binary,
           name: String.t(),
-          limit: integer,
+          total_limit: integer,
+          remaining_limit: integer,
+          status: atom,
           inserted_at: DateTime.t(),
           updated_at: DateTime.t()
         }
 
   schema "activity_categories" do
-    field :limit, :integer
     field :name, :string
+    field :total_limit, :integer
+    field :remaining_limit, :integer
+    field :status, Ecto.Enum, values: [:available, :complete]
 
     has_many :activity_types, ActivityType
 
@@ -34,7 +38,7 @@ defmodule CollegeTracker.ExtracurricularActivities.ActivityCategory do
   @doc false
   def changeset(activity_category, attrs) do
     activity_category
-    |> cast(attrs, [:name, :limit])
-    |> validate_required([:name, :limit])
+    |> cast(attrs, [:name, :total_limit, :remaining_limit, :status])
+    |> validate_required([:name, :total_limit, :remaining_limit, :status])
   end
 end
