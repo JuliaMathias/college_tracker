@@ -19,7 +19,13 @@
   <:col :let={{_id, activity}} label="Start date"><%= activity.start_date %></:col>
   <:col :let={{_id, activity}} label="End date"><%= activity.end_date %></:col>
   <:col :let={{_id, activity}} label="Submission date"><%= activity.submission_date %></:col>
-  <:col :let={{_id, activity}} label="Certificate"><%= activity.certificate %></:col>
+  <:col :let={{_id, activity}} label="Certificate">
+    <%= if activity.certificate do %>
+      <a href={static_path(@socket, activity.certificate)} class="ml-7">
+        <.icon name="hero-arrow-down-tray" class="h-3 w-3" />
+      </a>
+    <% end %>
+  </:col>
   <:action :let={{_id, activity}}>
     <div class="sr-only">
       <.link navigate={~p"/activities/#{activity}"}>Show</.link>
