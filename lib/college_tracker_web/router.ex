@@ -38,6 +38,7 @@ defmodule CollegeTrackerWeb.Router do
 
     live "/activities/:id", ActivityLive.Show, :show
     live "/activities/:id/show/edit", ActivityLive.Show, :edit
+    get "/uploads/:file", FileController, :download
   end
 
   # Other scopes may use custom stacks.
