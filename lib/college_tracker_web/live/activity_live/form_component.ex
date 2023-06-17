@@ -1,6 +1,11 @@
 defmodule CollegeTrackerWeb.ActivityLive.FormComponent do
   use CollegeTrackerWeb, :live_component
 
+  use Phoenix.VerifiedRoutes,
+    router: CollegeTrackerWeb.Router,
+    endpoint: CollegeTrackerWeb.Endpoint,
+    statics: ~w(uploads)
+
   alias CollegeTracker.ExtracurricularActivities
   alias CollegeTracker.Repo
 
@@ -40,7 +45,8 @@ defmodule CollegeTrackerWeb.ActivityLive.FormComponent do
         <.input field={@form[:start_date]} type="date" label="Start date" />
         <.input field={@form[:end_date]} type="date" label="End date" />
         <.input field={@form[:submission_date]} type="date" label="Submission date" />
-        <.input field={@form[:certificate]} type="text" label="Certificate" />
+        <.label for={@uploads.certificate.ref}>Certificate</.label>
+        <.live_file_input upload={@uploads.certificate} />
         <:actions>
           <.button phx-disable-with="Saving...">Save Activity</.button>
         </:actions>
@@ -60,7 +66,8 @@ defmodule CollegeTrackerWeb.ActivityLive.FormComponent do
      socket
      |> assign(assigns)
      |> assign_form(changeset)
-     |> assign(type_options: type_options)}
+     |> assign(type_options: type_options)
+     |> allow_upload(:certificate, accept: ~w(.jpg .jpeg .png .pdf .doc .docx), max_entries: 1)}
   end
 
   @impl true
@@ -74,7 +81,32 @@ defmodule CollegeTrackerWeb.ActivityLive.FormComponent do
   end
 
   def handle_event("save", %{"activity" => activity_params}, socket) do
-    save_activity(socket, socket.assigns.action, activity_params)
+    case uploaded_entries(socket, :certificate) do
+      {[_ | _] = entries, []} ->
+        uploaded_files =
+          for entry <- entries do
+            consume_uploaded_entry(socket, entry, fn %{path: path} ->
+              dest = Path.join("priv/static/uploads", entry.client_name)
+              File.cp!(path, dest)
+              {:ok, static_path(socket, "/uploads/#{Path.basename(dest)}")}
+            end)
+          end
+
+        file = List.first(uploaded_files)
+
+        save_activity(
+          socket,
+          socket.assigns.action,
+          Map.put(activity_params, "certificate", file)
+        )
+
+      _ ->
+        save_activity(
+          socket,
+          socket.assigns.action,
+          activity_params
+        )
+    end
   end
 
   defp save_activity(socket, :edit, activity_params) do

@@ -1,6 +1,11 @@
 defmodule CollegeTrackerWeb.ActivityLive.Index do
   use CollegeTrackerWeb, :live_view
 
+  use Phoenix.VerifiedRoutes,
+    router: CollegeTrackerWeb.Router,
+    endpoint: CollegeTrackerWeb.Endpoint,
+    statics: ~w(uploads)
+
   alias CollegeTracker.ExtracurricularActivities
   alias CollegeTracker.ExtracurricularActivities.Activity
 
